@@ -3,10 +3,10 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class EmailService {
-  final String emailJsUrl = dotenv.env['EMAIL_JS_URL'] ?? '';
-  final String serviceId = dotenv.env['SERVICE_ID'] ?? '';
-  final String templateId = dotenv.env['TEMPLATE_ID'] ?? '';
-  final String userId = dotenv.env['USER_ID'] ?? '';
+  final String emailJsUrl = "https://api.emailjs.com/api/v1.0/email/send";
+  final String serviceId = "service_tq709si";
+  final String templateId = "template_75bv74e";
+  final String userId = "3LMivM6Z562AI5hsY";
 
   Future<void> sendEmail({
     required String to,

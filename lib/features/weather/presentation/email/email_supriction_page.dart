@@ -7,7 +7,8 @@ import 'package:weather_app/utils/validator.dart';
 class EmailSubscriptionPage extends StatefulWidget {
   final String? initialCityName;
 
-  const EmailSubscriptionPage({Key? key, this.initialCityName}) : super(key: key);
+  const EmailSubscriptionPage({Key? key, this.initialCityName})
+      : super(key: key);
 
   @override
   State<EmailSubscriptionPage> createState() => _EmailSubscriptionPageState();
@@ -28,7 +29,9 @@ class _EmailSubscriptionPageState extends State<EmailSubscriptionPage> {
           onPressed: () => context.go('/'),
         ),
         title: Text(
-          _isSubscribing ? 'Subscribe to Weather Forecast' : 'Unsubscribe',
+          _isSubscribing
+              ? 'Subscribe to Weather Forecast'
+              : 'Unsubscribe to Weather Forecast',
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -47,12 +50,14 @@ class _EmailSubscriptionPageState extends State<EmailSubscriptionPage> {
             listener: (context, state) {
               if (state is EmailSubscriptionSuccess) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.message), backgroundColor: Colors.green),
+                  SnackBar(
+                      content: Text(state.message),
+                      backgroundColor: Colors.green),
                 );
-                Navigator.pop(context);
               } else if (state is EmailSubscriptionError) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.error), backgroundColor: Colors.red),
+                  SnackBar(
+                      content: Text(state.error), backgroundColor: Colors.red),
                 );
               }
             },
@@ -79,15 +84,15 @@ class _EmailSubscriptionPageState extends State<EmailSubscriptionPage> {
                         if (_formKey.currentState!.validate()) {
                           if (_isSubscribing) {
                             context.read<EmailSubscriptionBloc>().add(
-                              SubscribeEmail(
-                                _emailController.text,
-                                cityName: widget.initialCityName,
-                              ),
-                            );
+                                  SubscribeEmail(
+                                    _emailController.text,
+                                    cityName: widget.initialCityName,
+                                  ),
+                                );
                           } else {
                             context.read<EmailSubscriptionBloc>().add(
-                              UnsubscribeEmail(_emailController.text),
-                            );
+                                  UnsubscribeEmail(_emailController.text),
+                                );
                           }
                         }
                       },

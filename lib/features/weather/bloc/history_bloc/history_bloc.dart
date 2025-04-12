@@ -5,6 +5,7 @@ import 'package:weather_app/features/weather/model/history.dart';
 import 'package:weather_app/features/weather/model/weather.dart';
 part 'history_bloc_event.dart';
 part 'history_bloc_state.dart';
+
 class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   final HistoryRepository historyRepository;
 
@@ -17,14 +18,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   void _onLoadHistory(LoadHistory event, Emitter<HistoryState> emit) async {
     emit(HistoryLoading());
     try {
-      print('Loading history...');
       final history = await historyRepository.getHistory();
-      print('History loaded: $history');
-      if (history == null) {
-        print('History is null');
-      } else {
-        print('History is not null: ${history.weatherList}');
-      }
       if (history != null) {
         emit(HistoryLoaded(history));
       } else {
@@ -49,8 +43,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     }
   }
 
-  void _onClearHistory(
-      ClearHistory event, Emitter<HistoryState> emit) async {
+  void _onClearHistory(ClearHistory event, Emitter<HistoryState> emit) async {
     try {
       await historyRepository.clearHistory();
       emit(HistoryLoaded(HistoryWeather(weatherList: [])));

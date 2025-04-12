@@ -20,22 +20,22 @@ class WeatherSection extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-                  Align(
-                alignment: Alignment.topRight,
-                child: GestureDetector(
-                  onTap: () {
-                   context.go('/history');
-                  },
-                  child: Text(
-                    'History',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue[600],
-                    ),
-                  ),
+          Align(
+            alignment: Alignment.topRight,
+            child: GestureDetector(
+              onTap: () {
+                context.go('/history');
+              },
+              child: Text(
+                'History',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue[600],
                 ),
-                ),
+              ),
+            ),
+          ),
           Card(
             elevation: 4,
             color: Colors.blue[600],
@@ -142,10 +142,10 @@ class WeatherSection extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                            context
-                    .read<WeatherBloc>()
-                    .add(LoadMoreForecast(weatherData.cityName));
-                      },
+                      context
+                          .read<WeatherBloc>()
+                          .add(LoadMoreForecast(weatherData.cityName));
+                    },
                     child: const Text(
                       'Load More',
                       style: TextStyle(
@@ -156,13 +156,18 @@ class WeatherSection extends StatelessWidget {
                     ),
                   ),
                 ],
-                
               ),
               const SizedBox(height: 16),
-               ForecastCard(forecasts: forecastData),
-              
+              BlocBuilder<WeatherBloc, WeatherBlocState>(
+                builder: (context, state) {
+                  if (state is WeatherLoaded) {
+                    return ForecastCard(forecasts: state.forecastData);
+                  }
+                  return ForecastCard(forecasts: forecastData);
+                },
+              )
             ],
-          ),
+          )
         ],
       ),
     );

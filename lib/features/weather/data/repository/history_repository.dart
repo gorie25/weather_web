@@ -41,7 +41,6 @@ class HistoryRepository {
     if (historyJson != null) {
       try {
         final decodedJson = json.decode(historyJson);
-        print('Decoded JSON: $decodedJson');
         return HistoryWeather.fromJson(decodedJson);
       } catch (e) {
         print('Error decoding JSON: $e');

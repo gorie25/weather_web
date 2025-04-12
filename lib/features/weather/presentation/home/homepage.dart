@@ -78,7 +78,6 @@ class _HomePageState extends State<HomePage> {
                 context
                     .read<HistoryBloc>()
                     .add(AddWeatherToHistory(state.weatherData!));
-
                 return Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: isMobile
@@ -121,6 +120,7 @@ class _HomePageState extends State<HomePage> {
   Widget HorizontalLayout() {
     final weather = context.read<WeatherBloc>().state.weatherData;
     final forecast = context.read<WeatherBloc>().state.forecastData;
+    print(forecast);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -15,7 +15,8 @@ class ApiService {
       connectTimeout: Duration(milliseconds: 5000),
       receiveTimeout: Duration(milliseconds: 3000),
     ));
-  _apiKey=  dotenv.env['API_KEY']??" ";
+  
+  _apiKey="00da7cb1fc944c07bbb110721250204";
   }
 
   Future<WeatherModel> getCurrentWeather(String cityName) async {

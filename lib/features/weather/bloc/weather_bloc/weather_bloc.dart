@@ -29,24 +29,38 @@ class WeatherBloc extends Bloc<WeatherBlocEvent, WeatherBlocState> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('lastCity', weather.cityName);
       Forecast forecast = await weatherService.forecastWeather4days(event.city);
-      print(forecast);
       emit(WeatherLoaded(weather, forecast));
     } catch (e) {
       print(e);
       emit(WeatherError('Failed to fetch weather data'));
     }
-
   }
-    void _onLoadMoreForecastEvent(
+
+//  void _onLoadMoreForecastEvent(
+//       LoadMoreForecast event, Emitter<WeatherBlocState> emit) async {
+//     emit(WeatherLoading());
+//     try {
+//       WeatherModel weather = await weatherService.getCurrentWeather(event.city);
+//       Forecast forecast = await weatherService.loadmoreForecastWeatherDays(event.city);
+//       emit(WeatherLoaded(weather, forecast));
+//     } catch (e) {
+//       print(e);
+//       emit(WeatherError('Failed to fetch weather data'));
+//     }
+//   }
+  void _onLoadMoreForecastEvent(
       LoadMoreForecast event, Emitter<WeatherBlocState> emit) async {
-    emit(WeatherLoading());
-    try {
-      WeatherModel weather = await weatherService.getCurrentWeather(event.city);
-      Forecast forecast = await weatherService.loadmoreForecastWeatherDays(event.city);
-      emit(WeatherLoaded(weather, forecast));
-    } catch (e) {
-      print(e);
-      emit(WeatherError('Failed to fetch weather data'));
+    if (state is WeatherLoaded) {
+      final currentState = state as WeatherLoaded;
+      try {
+        Forecast forecast =
+            await weatherService.loadmoreForecastWeatherDays(event.city);
+           
+        emit(currentState.copyWith(forecastData: forecast));
+      } catch (e) {
+        print(e);
+        emit(WeatherError('Failed to load more forecast data'));
+      }
     }
   }
 
@@ -94,6 +108,4 @@ class WeatherBloc extends Bloc<WeatherBlocEvent, WeatherBlocState> {
       );
     }
   }
-
- 
 }
