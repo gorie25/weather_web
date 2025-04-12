@@ -15,8 +15,7 @@ class ApiService {
       connectTimeout: Duration(milliseconds: 5000),
       receiveTimeout: Duration(milliseconds: 3000),
     ));
-  
-  _apiKey="00da7cb1fc944c07bbb110721250204";
+    _apiKey = dotenv.env['API_KEY'] ?? ''; // Lấy API key từ .env
   }
 
   Future<WeatherModel> getCurrentWeather(String cityName) async {
@@ -47,8 +46,6 @@ class ApiService {
       final response =
           await _dio.get('current.json', queryParameters: queryParams);
       if (response.statusCode == 200) {
-        
-
         return WeatherModel.fromJson(response.data);
       } else {
         throw Exception('Lỗi API: ${response.statusCode}');
